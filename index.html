@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>k181151 Web Programming A3</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<script>
+class PrimeSumCalculator {
+    async calculateSumOfPrimes(N) {
+        let sum = 0;
+        for (let i = 1; i <= N; i++) {
+            const prime = await this.getNthPrime(i);
+            sum += prime;
+        }
+        return sum;
+    }
+
+    async getNthPrime(N) {
+        return new Promise((resolve, reject) => {
+            let primes = [];
+            let num = 2;
+            while (primes.length < N) {
+                if (this.isPrime(num, primes)) {
+                    primes.push(num);
+                }
+                num++;
+            }
+            resolve(primes[N - 1]);
+        });
+    }
+
+    isPrime(num, primes) {
+        for (const prime of primes) {
+            if (num % prime === 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+$(document).ready(function () {
+    const calculator = new PrimeSumCalculator();
+    const N = prompt("Enter the value of N for the sum of first N prime numbers:");
+    calculator.calculateSumOfPrimes(N).then(result => {
+        $("#result").html(`Sum of the first ${N} prime numbers is: ${result}`);
+    });
+});
+</script>
+
+<div id="result"></div>
+
+</body>
+</html>
